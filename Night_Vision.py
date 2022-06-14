@@ -2,7 +2,6 @@ import numpy as np
 import cv2
 
 def photon(out,n,num_p,color):
-    
     if color == 0:
         [v, h] = np.shape(out)
         out2 = np.ones([v,h])
