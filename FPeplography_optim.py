@@ -1,10 +1,12 @@
 import numpy as np
 import cv2
+from cv2 import CV_32F
+import warnings
 
-def FPE(img):
-    out = cv2.normalize(img.astype('float'), None, 0.0, 1.0, cv2.NORM_MINMAX)
+def FPE(out, ):
+    warnings.filterwarnings(action='ignore')
+    # out = cv2.normalize(img.astype('float'), None, 0.0, 1.0, cv2.NORM_MINMAX)
     [v, h, d] = np.shape(out)
-
     # print('--- Mask generation stage ---')
     mask = (v + h)*np.ones((v, h))
     mask[0,0] = 2*v*h
@@ -25,11 +27,13 @@ def FPE(img):
     if np.min(fft_out2) < 0:
         fft_out2 = fft_out2 - np.min(fft_out2)
 
-    fft_out2 = fft_out2/np.max(fft_out2)
+    fft_out2 = (fft_out2/np.max(fft_out2))
     return fft_out2
 
 if __name__ == "__main__":
-    img = cv2.imread("F:/_project_/_matlab/_source/fog.jpg")
+    img = cv2.imread("F:/_project_/_matlab/_source/fog1.jpg")
+    cv2.imshow("original", img)
+    # img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
     fft_out2 = FPE(img)
     cv2.imshow("fpimg", fft_out2)
     cv2.waitKey()
